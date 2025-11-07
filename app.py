@@ -22,7 +22,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import json, time
-from geopy.geocoders import Nominatim
+# from geopy.geocoders import Nominatim
 
 import plotly.express as px
 import plotly.graph_objects as go
@@ -368,14 +368,14 @@ AVG_COST
 # In[118]:
 
 
-df['lat']=df['location'].map(lambda x: coords[x][0])
-df['lon']=df['location'].map(lambda x: coords[x][1])
+# df['lat']=df['location'].map(lambda x: coords[x][0])
+# df['lon']=df['location'].map(lambda x: coords[x][1])
 
 
-# In[119]:
+# # In[119]:
 
 
-df.to_csv('zomato_with_latlon.csv', index=False)
+# df.to_csv('zomato_with_latlon.csv', index=False)
 
 
 # In[120]:
