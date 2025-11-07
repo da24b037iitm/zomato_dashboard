@@ -1,3 +1,25 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# # 🍽️ Zomato Restaurants — 3‑Page Dash App (Self‑Contained Version)
+# 
+# This notebook builds a **Plotly Dash** app for **Bengaluru restaurants**, featuring:
+# 
+# 1. **Overview Page** — KPIs, map, scatter (Cost vs Rating), cuisine bars, heatmap.  
+# 2. **Prediction Page** — Predict restaurant success (Success / Neutral / Fail).  
+# 3. **Details Page** — View full details for any restaurant.
+# 
+# ### ✅ What's new in this version:
+# - No external CSV file — synthetic Bengaluru dataset generated automatically.
+# - Fixed all callback and layout issues.
+# - Uses only your approved libraries (`dash`, `dash_bootstrap_components`, `pandas`, `numpy`, `plotly`).
+# 
+# Run the last cell to launch the interactive dashboard.
+# 
+
+# In[1]:
+
+
 import pandas as pd
 import numpy as np
 from datetime import datetime
@@ -8,6 +30,9 @@ import plotly.graph_objects as go
 
 from dash import Dash, dcc, html, Input, Output, State
 import dash_bootstrap_components as dbc
+
+
+# In[2]:
 
 
 # --- Synthetic Bengaluru Restaurant Data ---
@@ -42,6 +67,9 @@ AVG_COST = int(df["cost_for_two"].mean())
 PCT_4PLUS = float(np.round((df["avg_rating"] >= 4.0).mean() * 100, 1))
 
 print(f"✅ Generated {TOTAL} restaurants for Bengaluru — ready for dashboard.")
+
+
+# In[3]:
 
 
 def kpi_card(label, value, suffix=''):
@@ -89,6 +117,9 @@ def success_label(input_rating, votes, cost):
         return 'Fail', 'danger'
     else:
         return 'Neutral', 'warning'
+
+
+# In[4]:
 
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
@@ -168,6 +199,9 @@ app.layout = dbc.Container([
 ], fluid=True)
 
 
+# In[5]:
+
+
 @app.callback(Output('page_content','children'), Input('tabs','active_tab'))
 def render_tab(tab_id):
     if tab_id == 'tab-overview':
@@ -224,6 +258,9 @@ def update_details(d_pick, from_overview):
     hist = px.histogram(df, x='avg_rating', nbins=20, height=180); hist.add_vline(x=row['avg_rating'], line_dash='dash')
     hist.update_layout(margin=dict(l=0,r=0,t=0,b=0))
     return name, address, meta, comp_fig, hist, chosen
+
+
+# In[6]:
 
 
 if __name__ == '__main__':
